@@ -1,7 +1,5 @@
 GET http://localhost:3000/players/
 ###
-GET http://localhost:3000/players/1/
-###
 
 POST http://localhost:3000/players/
 content-type :application/json
@@ -12,13 +10,18 @@ content-type :application/json
   "role": "Bowler"
 }
 ###
-PUT http://localhost:3000/players/:lastID/
+
+GET http://localhost:3000/players/1/
+
+###
+PUT http://localhost:3000/players/16/
 content-type:application/json
 
-```
 {
   "playerName": "Maneesh",
   "jerseyNumber": 54,
   "role": "All-rounder"
 }
-```
+
+###
+DELETE http://localhost:3000/players/17/

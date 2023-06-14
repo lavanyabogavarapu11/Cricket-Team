@@ -36,31 +36,22 @@ const convertDbObjectToResponseObject = (dbObject) => {
   };
 };
 
+//GET list of player API 1
 app.get("/players/", async (request, response) => {
   const getPlayersQuery = `
     SELECT
       *
     FROM
-      cricketTeam;`;
+      cricket_team;`;
   const playerArray = await db.all(getPlayersQuery);
   response.send(
-    playersArray.map((eachPlayer) =>
-      convertDbObjectToResponseObject(eachPlayer)
-    )
+    playerArray.map((eachPlayer) => convertDbObjectToResponseObject(eachPlayer))
   );
 });
 
-app.get("/players/:playerId/", async (request, response) => {
-  const { playerId } = request.params;
-  const getPlayerQuery = `SELECT * FROM cricket_team
-    WHERE player_id =${playerId};`;
-  const player = await db.get(getPlayerQuery);
-  response.send(convertDbObjectToresponseObject(player));
-});
+//Add Player API
 
-//Add Book API
-
-app.post("/players/", async (request, resppnse) => {
+app.post("/players/", async (request, response) => {
   const playerDetails = request.body;
   const { playerName, jerseyNumber, role } = playerDetails;
   const postPlayerQuery = `INSERT INTO cricket_team(player_name,jersey_number,role)
@@ -71,6 +62,15 @@ app.post("/players/", async (request, resppnse) => {
   response.send("Player Added to Team");
 });
 
+//Get Player API2
+app.get("/players/:playerId/", async (request, response) => {
+  const { playerId } = request.params;
+  const getPlayerQuery = `SELECT * FROM cricket_team
+    WHERE player_id =${playerId};`;
+  const player = await db.get(getPlayerQuery);
+  response.send(convertDbObjectToResponseObject(player));
+});
+
 //Update Player API
 app.put("/players/:playerId/", async (request, response) => {
   const { playerId } = request.params;
@@ -78,7 +78,7 @@ app.put("/players/:playerId/", async (request, response) => {
   const { playerName, jerseyNumber, role } = playerDetails;
   const updatePlayerQuery = `UPDATE cricket_team
     SET player_name ='${playerName}',
-    jerseyNumber = ${jerseyNumber},
+    jersey_number = ${jerseyNumber},
     role = '${role}'
     WHERE
      player_id = ${playerId};`;
